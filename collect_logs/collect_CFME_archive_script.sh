@@ -1,7 +1,8 @@
+#!/bin/bash
 collect_logs_directory=$(pwd)
 # save directory from which command is initiated
 pushd /var/www/miq/vmdb
-# make the vmdb/log directory the current directory 
+# make the vmdb/log directory the current directory
 rm -f log/evm_full_archive_$(uname -n)* log/evm_current_$(uname -n)*
 # eliminiate any prior collected logs to make sure that only one collection is current
 
@@ -10,11 +11,11 @@ read tbuild < BUILD
 echo "$tbuild"
 subset=${tbuild:0:3}
 echo "$subset"
-if [ $subset = "5.5" ]; then 
+if [ $subset = "5.5" ]; then
      echo 'this is a CFME 40 environment'
      else
      echo 'this is not a CFME 40 environment'
-fi  
+fi
 
 case $subset in
 "5.5" )
@@ -35,8 +36,8 @@ case $subset in
  ;;
 *)
  message="unknown cloudforms release"
- ;;   
-esac  
+ ;;
+esac
 # then collect all appropriate logs into one tgz
 echo "XZ_OPT=-9 tar -cJvf log/evm_full_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION log/* config/*  /var/log/* $postgresql_path_files  "
 XZ_OPT=-9 tar -cJvf log/evm_full_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION log/* config/* /var/log/* $postgresql_path_files
