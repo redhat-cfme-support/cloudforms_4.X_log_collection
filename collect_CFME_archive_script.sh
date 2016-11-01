@@ -29,7 +29,7 @@ esac
 
 if [ -e /opt/rh/postgresql92/root/var/lib/pgsql/data/pg_log/postgresql.log ]
 then
-XZ_OPT=-9 tar -cJvf log/evm_archived_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $postgresql_path_files "
+echo "XZ_OPT=-9 tar -cJvf log/evm_archived_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $postgresql_path_files "
 else
 XZ_OPT=-9 tar -cJvf log/evm_full_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse --exclude='lastlog' BUILD GUID VERSION log/* config/*   /var/log/*
 #fi
