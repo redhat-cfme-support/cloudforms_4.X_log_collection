@@ -27,12 +27,12 @@ case $subset in
 esac
 
 
-if [ -e /opt/rh/postgresql92/root/var/lib/pgsql/data/pg_log/postgresql.log ]
-then
+#if [ -e /opt/rh/postgresql92/root/var/lib/pgsql/data/pg_log/postgresql.log ]
+#then
 echo "XZ_OPT=-9 tar -cJvf log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $postgresql_path_files "
-else
+#else
 XZ_OPT=-9 tar -cJvf log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files   BUILD GUID VERSION REGION log/*.log log/*.txt config/* /var/log/* log/apache/* $postgresql_path_files
-fi
+#fi
 
 # and restore previous current directory
 popd
