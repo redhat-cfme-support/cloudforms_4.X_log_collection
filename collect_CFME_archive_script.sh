@@ -3,7 +3,7 @@ collect_logs_directory=$(pwd)
 # save directory from which command is initiated
 pushd /var/www/miq/vmdb
 # make the vmdb/log directory the current directory 
-rm -f log/evm_full_archived_$(uname -n)* log/evm_archived_$(uname -n)*
+rm -f log/evm_full_archive_$(uname -n)* log/evm_archived_$(uname -n)*
 # eliminiate any prior collected logs to make sure that only one collection is current
 
 # determine what level of CFME this command is executing on
@@ -27,11 +27,11 @@ case $subset in
 esac
 
 
-#if [ -e /opt/rh/postgresql92/root/var/lib/pgsql/data/pg_log/postgresql.log ]
-#then
-echo "XZ_OPT=-9 tar -cJvf log/evm_archived_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $postgresql_path_files "
-#else
-XZ_OPT=-9 tar -cJvf log/evm_archived_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files   BUILD GUID VERSION REGION log/*.log log/*.txt config/* /var/log/* log/apache/* $postgresql_path_files
+if [ -e /opt/rh/postgresql92/root/var/lib/pgsql/data/pg_log/postgresql.log ]
+then
+XZ_OPT=-9 tar -cJvf log/evm_archived_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $postgresql_path_files "
+else
+XZ_OPT=-9 tar -cJvf log/evm_full_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse --exclude='lastlog' BUILD GUID VERSION log/* config/*   /var/log/*
 #fi
 
 # and restore previous current directory
