@@ -3,7 +3,7 @@ collect_logs_directory=$(pwd)
 # save directory from which command is initiated
 pushd /var/www/miq/vmdb
 # make the vmdb/log directory the current directory 
-rm -f log/evm_full_archive_$(uname -n)* log/evm_archived_$(uname -n)*
+rm -f log/evm_full_archived_$(uname -n)* log/evm_archived_$(uname -n)*
 # eliminiate any prior collected logs to make sure that only one collection is current
 
 # determine what level of CFME this command is executing on
