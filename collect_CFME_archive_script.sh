@@ -10,16 +10,17 @@ rm -f log/evm_full_archive_$(uname -n)* log/evm_current_$(uname -n)*
 source /etc/default/evm
 
 
- psql_conf="$(APPLIANCE_PG_DATA)/postgresql.conf" 
- psql_log_directory="$(APPLIANCE_PG_DATA)/pg_log/*"
+#$(APPLIANCE_PG_DATA) 
+#$(APPLIANCE_PG_DATA)
 
 
-if [ -e $(APPLIANCE_PG_DATA)/pg_log/postgresql.log ]
+if [ -e $APPLIANCE_PG_DATA/pg_log ]
 then
-echo "XZ_OPT=-9 tar -cJvf log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $psql_conf $psql_log_directory "
+echo "XZ_OPT=-9 tar -cJvf log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf"
 else
-XZ_OPT=-9 tar -cJvf log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* 
+XZ_OPT=-9 tar -cJvf log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/*
 fi
 
 # and restore previous current directory
 popd
+~     
