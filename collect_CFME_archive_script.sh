@@ -11,11 +11,12 @@ source /etc/default/evm
 
 if [ -d "$APPLIANCE_PG_DATA" ]
 then
+echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
 XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
-echo "Has Postgresql Directories"
+
 else
 XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/*
-echo "Doesn't have Postgresql Directories"
+echo "This CloudForms appliance is not a Database server"
 fi
 # and restore previous current directory
 popd
