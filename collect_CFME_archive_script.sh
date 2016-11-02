@@ -12,11 +12,13 @@ source /etc/default/evm
 if [ -f "$APPLIANCE_PG_DATA" ]
 then
 echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
+echo " Log collection starting:"
 XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
 
 else
-XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/*
 echo "This CloudForms appliance is not a Database server"
+echo " Log collection starting:"
+XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/*
 fi
 # and restore previous current directory
 popd
