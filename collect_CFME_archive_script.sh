@@ -9,40 +9,16 @@ rm -f log/evm_full_archive_$(uname -n)* log/evm_archived_$(uname -n)*
 #Source in the file so that we can call postgresql functions
 source /etc/default/evm
 
-<<<<<<< HEAD
 if [ -f "$APPLIANCE_PG_DATA" ]
 then
 echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
 echo " Log collection starting:"
-XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
-=======
-case $subset in
-"5.5"|"5.6"|"5.7")
- message="cloudforms 4.* release"
- if [ -e "/var/opt/rh/rh-postgresql94/lib/pgsql/data/postgresql.conf" ] ; then
-  postgresql_path_files="/var/opt/rh/rh-postgresql94/lib/pgsql/data/*.conf /var/opt/rh/rh-postgresql94/lib/pgsql/data/pg_log/* "
-  else
-  echo "This appliance does not contain a running Postgresql instance, no Postgresql materials collected"
- fi
- ;;
-*)
- message="Unknown Cloudforms release, log collection terminated "
- ;;
-esac
-
-
-if [ -e /opt/rh/postgresql92/root/var/lib/pgsql/data/pg_log/postgresql.log ]
-then
-echo "XZ_OPT=-9 tar -cJvf log/evm_archived_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/* $postgresql_path_files "
-else
-XZ_OPT=-9 tar -cJvf log/evm_full_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse --exclude='lastlog' BUILD GUID VERSION log/* config/*   /var/log/*
-fi
->>>>>>> master
+XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/* config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
 
 else
 echo "This CloudForms appliance is not a Database server"
 echo " Log collection starting:"
-XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/*.log log/*.txt config/*  /var/log/* log/apache/*
+XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/* config/* /var/log/* log/apache/*
 fi
 # and restore previous current directory
 popd
