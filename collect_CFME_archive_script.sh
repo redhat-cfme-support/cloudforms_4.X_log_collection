@@ -22,4 +22,3 @@ XZ_OPT=-9 tar -cJvf log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz --
 fi
 # and restore previous current directory
 popd
-~     
