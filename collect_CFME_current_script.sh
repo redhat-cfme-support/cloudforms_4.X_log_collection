@@ -9,7 +9,7 @@ rm -f log/evm_full_archive_$(uname -n)* log/evm_current_$(uname -n)*
 #Source in the file so that we can call postgresql functions
 source /etc/default/evm
 
-if [ -d "$APPLIANCE_PG_DATA" ]
+if [ -d "$APPLIANCE_PG_DATA/pg_log" ]
 then
 
 echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
