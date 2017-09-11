@@ -15,7 +15,7 @@ source /etc/default/evm
 
 tarball="log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz"
 
-if [[ -z "$APPLIANCE_PG_DATA" && -d "$APPLIANCE_PG_DATA" ]]; then
+if [[ -n "$APPLIANCE_PG_DATA" && -d "$APPLIANCE_PG_DATA/pg_log" ]]; then
     echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
     echo " Log collection starting:"
     XZ_OPT=-9 tar -cJvf ${tarball} --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION log/* config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
