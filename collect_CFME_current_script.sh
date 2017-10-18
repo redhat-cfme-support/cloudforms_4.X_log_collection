@@ -18,7 +18,7 @@ tarball="log/evm_current_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz"
 if [[ -n "$APPLIANCE_PG_DATA" && -d "$APPLIANCE_PG_DATA/pg_log" ]]; then
     echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
     echo " Log collection starting:"
-    XZ_OPT=-9 tar -cJvf ${tarball} --sparse -X $collect_logs_directory/exclude_files   BUILD GUID VERSION REGION log/*.log log/*.txt config/* /var/log/* log/apache/*/$APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
+    XZ_OPT=-9 tar -cJvf ${tarball} --sparse -X $collect_logs_directory/exclude_files   BUILD GUID VERSION REGION log/*.log log/*.txt config/* /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
 else
     echo "This CloudForms appliance is not a Database server"
     echo " Log collection starting:"
