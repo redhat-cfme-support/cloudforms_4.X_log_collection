@@ -15,6 +15,9 @@ source /etc/default/evm
 
 tarball="log/evm_archive_$(uname -n)_$(date +%Y%m%d_%H%M%S).tar.xz"
 
+#add if required, but do not change atime 
+touch -a $collect_logs_directory/exclude_files
+
 if [[ -n "$APPLIANCE_PG_DATA" && -d "$APPLIANCE_PG_DATA/pg_log" ]]; then
     echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
     echo " Log collection starting:"
