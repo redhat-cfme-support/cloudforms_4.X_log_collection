@@ -24,15 +24,24 @@ source /etc/default/evm
 
 tarball="${tar_base_name}_$(date +%Y%m%d_%H%M%S).tar.xz"
 
+include_files="BUILD GUID VERSION REGION"                              # CFME version/identifiers
+include_files="$include_files $vmd_log_files"                          # CFME log files to include
+include_files="$include_files /var/log/* var/apache/*"                 # System/apache log files
+
 if [[ -n "$APPLIANCE_PG_DATA" && -d "$APPLIANCE_PG_DATA/pg_log" ]]; then
     echo "This CloudForms appliance has a Database server and is running version: $(psql --version)"
-    echo " Log collection starting:"
-    XZ_OPT=-9 tar -cJvf ${tarball} --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION $vmd_log_files config/*  /var/log/* log/apache/* $APPLIANCE_PG_DATA/pg_log/* $APPLIANCE_PG_DATA/postgresql.conf
+
+    include_files="$include_files $APPLIANCE_PG_DATA/pg_log/*"         # PG log files
+    include_files="$include_files $APPLIANCE_PG_DATA/postgresql.conf"  # PG config files
 else
     echo "This CloudForms appliance is not a Database server"
-    echo " Log collection starting:"
-    XZ_OPT=-9 tar -cJvf ${tarball} --sparse -X $collect_logs_directory/exclude_files BUILD GUID VERSION REGION $vmd_log_files config/* /var/log/* log/apache/*
 fi
+
+
+echo " Log collection starting:"
+XZ_OPT=-9 tar -cJvf ${tarball} --sparse                \
+              -X $collect_logs_directory/exclude_files \
+              $include_files
 
 # and restore previous current directory
 popd
