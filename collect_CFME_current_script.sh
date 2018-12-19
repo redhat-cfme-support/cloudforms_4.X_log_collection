@@ -8,7 +8,10 @@ vmdb_logs_directory="/var/www/miq/vmdb"
 pushd ${vmdb_logs_directory}
 
 # eliminiate any prior collected logs to make sure that only one collection is current
-rm -f log/evm_full_archive_$(uname -n)* log/evm_current_$(uname -n)*
+rm -f log/evm_full_archive_$(uname -n)* \
+      log/evm_archived_$(uname -n)*     \
+      log/evm_archive_$(uname -n)*      \
+      log/evm_current_$(uname -n)*
 
 #Source in the file so that we can call postgresql functions
 source /etc/default/evm
