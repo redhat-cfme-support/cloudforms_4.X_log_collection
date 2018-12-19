@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # save directory from which command is initiated
-collect_logs_directory=$(pwd)
+collect_logs_directory=${BASH_SOURCE%/*}
 
 # used in filenames and globs
 vmdb_hostname=$(uname -n)

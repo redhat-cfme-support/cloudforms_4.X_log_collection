@@ -3,12 +3,4 @@
 collection_type="archive"
 vmdb_logs_files="log/*"
 
-if [[ -e ${BASH_SOURCE%/*} ]]; then
-  starting_dir=$(pwd)
-  cd ${BASH_SOURCE%/*}
-  source ./collect_CFME_logs.sh
-  cd $starting_dir
-else
-  echo "ERROR:  Unable to find collect log script!"
-  exit 1
-fi
+source ${BASH_SOURCE%/*}/collect_CFME_logs.sh
